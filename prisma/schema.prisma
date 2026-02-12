@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  category  String
+  
+  // Names
+  name_es   String
+  name_en   String
+  name_ca   String
+  
+  // Descriptions (optional)
+  desc_es   String?
+  desc_en   String?
+  desc_ca   String?
+  
+  // Price (stored as string to match current format, e.g. "1.50")
+  price     String
+  
+  // Order for display
+  order     Int      @default(0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
