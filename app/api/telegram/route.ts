@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 // --- Config ---
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!
-const ADMIN_CHAT_ID = process.env.TELEGRAM_ADMIN_ID
+const ADMIN_CHAT_IDS = process.env.TELEGRAM_ADMIN_ID?.split(",").map(id => id.trim()) || []
 const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`
 
 // --- Category config ---
@@ -110,8 +110,8 @@ function productKeyboard(products: any[], action: string, catShort: string) {
 
 // --- Auth check ---
 function isAuthorized(chatId: number): boolean {
-  if (!ADMIN_CHAT_ID) return true
-  return chatId.toString() === ADMIN_CHAT_ID
+  if (ADMIN_CHAT_IDS.length === 0) return true
+  return ADMIN_CHAT_IDS.includes(chatId.toString())
 }
 
 // --- Webhook setup (GET) ---
