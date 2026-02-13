@@ -164,8 +164,14 @@ async function handleMessage(message: any) {
   const chatId = message.chat.id
   const text = message.text?.trim() || ""
 
+  // Public command to get ID
+  if (text === "/myid") {
+    await sendMessage(chatId, `🆔 Tu ID de Telegram es: <code>${chatId}</code>`)
+    return
+  }
+
   if (!isAuthorized(chatId)) {
-    await sendMessage(chatId, "\u26d4 No tienes permisos para usar este bot.")
+    await sendMessage(chatId, "\u26d4 No tienes permisos para usar este bot. Envía /myid para saber tu ID.")
     return
   }
 
